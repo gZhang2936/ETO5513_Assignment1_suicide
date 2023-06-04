@@ -135,6 +135,21 @@ table_3year_geo
 ```
 
 ## Visualisations
+
+```{r 3yeartrend}
+summary_sex_3year_bar <- rates_by_sex_new %>%
+  group_by(Entity, Year)%>%
+  filter(Entity %in% c("Africa", "Americas", "Eastern Mediterranean", "Europe", "South-East Asia", "Western Pacific"))
+
+bar_groups <- ggplot(summary_sex_3year_bar, aes(fill = as.character(Year), y = Suicide_rate_of_both_sexes, x = Entity)) +
+  geom_bar(position = 'dodge', stat = 'identity') +
+  ggtitle("Global suicide rate by region 2017-2019") +
+  ylab("Suicide rates of both sexes") +
+  scale_fill_discrete(name = "Year")
+
+ggplotly(bar_groups)
+```
+
 The set of plots below shows male vs. female suicide rates in each country in 2017, 2018, 2019. The solid line (y=x) is the equality ratio line. From the plots we can clearly see:
 
  - _Male suicide rates are higher or close to female suicide rates in all countries from 2017 to 2019._
