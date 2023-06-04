@@ -1,5 +1,5 @@
 ---
-title: "Comparing suicide rate between sexes across the globe"
+title: "Comparing male and female suicide rate across the globe"
 Subtitle: "Data mini-project for ETO5513 Assessment 1"
 author: "Shiyuan Zhang"
 date: "`r Sys.Date()`"
@@ -10,7 +10,7 @@ output:
     toc_float: True
   
 ---
-```{r set up}
+```{r setup}
 #Global setup
 knitr::opts_chunk$set(echo = TRUE)
 knitr::opts_chunk$set(fig.align ="center")
@@ -18,7 +18,7 @@ knitr::opts_chunk$set(fig.align ="center")
 ```
 
 ## Loading libraries
-Required libraries are loaded in this section without displaying the code.
+Required libraries are loaded in this section without displaying the code, warning or messages.
 
 ```{r library, echo = FALSE, message = FALSE, warning = FALSE}
 
@@ -36,18 +36,18 @@ library("plotly")
 ```
 
 ## Research question
-In this mini project, we will examine and compare the differences of suicide rate between male and female in different countries/regions from 2017 to 2019. We will try to find out if suicide/self harm behavior is more prevalent in one sex and in certain countries/regions across the globe. 
+In this mini project, we will examine and compare male and female suicide rates in different countries/regions/income groups using data obtained from 2017 to 2019. We will try to find out if suicide/self harm behavior is more prevalent in one sex and in certain countries/regions across the globe. 
 
 ## Data set introduction
-The original data was obtained from [Our World in Data](https://ourworldindata.org/suicide?insight=suicide-rates-rise-with-age#key-insights-on-suicide) and modifications were made to meet the requirements of this assessment and for analysis purposes. As shown below, we have kept the data obtained in 2017-2019 and dropped the "country code" variable as it was considered redundant.
+The original data was obtained from [Our World in Data](https://ourworldindata.org/suicide?insight=suicide-rates-rise-with-age#key-insights-on-suicide) and modifications were made to meet analysis and assessment requirements. As shown below, we have kept the data obtained in 2017-2019 and dropped the "country code" variable as it was considered redundant.
 
-```{r Load and modify datasets}
+```{r LoadData}
 
 #Load data sets
 rates_by_sex <- read.csv("data/suicide-death-rates-by-sex-who.csv")
 
-#Modify data set to be less than 5 variables and 1000 observations
-#Filter out year 2017-2019. Drop Country code
+#Modify data set to be less than 5 variables and 1000 observations.
+#Filter out year 2017-2019. Drop Country code variable.
 rates_by_sex_new <- rates_by_sex %>%
   filter(Year %in% c("2017", "2018", "2019")) %>%
   select(c("Entity", "Year", "Age.standardized.suicide.rate...Sex..both.sexes", "Age.standardized.suicide.rate...Sex..male", "Age.standardized.suicide.rate...Sex..female"))
@@ -59,7 +59,7 @@ rates_by_sex_new <- rates_by_sex_new %>%
          "Suicide_rate_of_female" = "Age.standardized.suicide.rate...Sex..female")
 ```
 
-The data set has `r ncol(rates_by_sex_new)` variables. "Entity" is the country/region the data was collected in (e.g., "Afghanistan", "Africa"), and "Year" is the year of collection. Suicide rates (annual number of suicides per 100,000 male or female) were standardized among age groups and calculated for male, female, and for both sexes. (See Table \@ref(tab:exampleTable))
+The data set has `r ncol(rates_by_sex_new)` variables. "Entity" is the country/region the data was collected in (e.g., Afghanistan, Africa), and "Year" is the year of data collection. Suicide rate is the annual number of suicide per 100,000 male or female and the number was age-standardized for male, female, and for both sexes. (See Table \@ref(tab:exampleTable))
 
 ```{r exampleTable}
 table_variable <- knitr::kable(head(rates_by_sex_new, 7),
@@ -77,7 +77,7 @@ In the modified data set, there are `r nrow(rates_by_sex_new)` countries/observa
 knitr::include_graphics("image/Inline_code.png")
 ```
 
-More specifically, "Entity" is a character variable that is comprised of 184 countries and 10 regions classified either by the geographical location of the country or by the level of income.  These regions are listed below:
+More specifically, "Entity" is a character variable that includes 184 countries and 10 regions/groups classified either by the geographical location of the country or by the level of income. These regions are listed below:
 
 - Geographical regions:
 
@@ -103,16 +103,17 @@ More specifically, "Entity" is a character variable that is comprised of 184 cou
 
   - Upper-middle-income
 
-"Year" is an integer variable that has only three values: "2017", "2018", and "2019". "Suicide_rate_of_both_sexes", "suicide_rate_male" and "suicide_rate_female" are all numerical variables. The below output shows the type of the variables described above and two rows of the observations.
+"Year" is an integer variable that has only three values: "2017", "2018", and "2019".
+"Suicide_rate_of_both_sexes", "suicide_rate_male" and "suicide_rate_female" are all numerical variables. The below output shows the variables described above with 2 rows of data as an example.
 
-```{r showcase of all variable types}
+```{r exampleVariable}
 str(head(rates_by_sex_new, 2))
 ```
 
 ## Data summary
-The mean and standard deviation of male and female suicide rates by country over 2017-2019 were calculated and displayed below. (See Table \@ref(tab:Summaryofdata))
+Table \@ref(tab:Summaryofdata) shows the mean and Standard deviation (sd) of male and female suicide rate by geographic regions of the three-year period (2017-2019).
 
-The male suicide rates are significantly higher than female suicide rates (__4 times__ at most & 1.5 times at least) with higher variances across the years in all of the testing groups. Comparing between groups, Africa and Europe have the highest male suicide rates (18.32 and 17.94 per 100,000 male, respectively), and South-East Asia has a notably high female suicide rate of 7.98 per 100,000 female.
+In all geographical groups, male suicide rates were significantly higher than female suicide rates (__4 times__ at most & 1.5 times at least) and demonstrated higher variances over the years. Comparing between groups, Africa and Europe had the highest male suicide rates (18.32 and 17.94 per 100,000 male, respectively), and South-East Asian countries had a notably high female suicide rate of 7.98 per 100,000 female.
 
 ```{r Summaryofdata}
 # Group by the entity and calculate the mean and sd over 2017-2019
@@ -134,11 +135,11 @@ table_3year_geo
 ```
 
 ## Visualisations
-The set of plots below shows male vs. female suicide rates in each country in 2017, 2018, 2019 (The solid line (y=x) is the equality ratio line). From the plots we can clearly see:
+The set of plots below shows male vs. female suicide rates in each country in 2017, 2018, 2019. The solid line (y=x) is the equality ratio line. From the plots we can clearly see:
 
- - _Male suicide rates are higher or close to female suicide rates in all countries over the three years._
+ - _Male suicide rates are higher or close to female suicide rates in all countries from 2017 to 2019._
  
- - _Of note, Lesotho has significantly high male and female suicide rates compared to other countries._
+ - _Of note, Lesotho had significantly high male and female suicide rates compared to other countries._
 
 ```{r malefemalerates}
 # Create dataset for the graph
@@ -159,6 +160,7 @@ ggplotly(scatter_allcountry)
 ```
 
 ## Conclusions
-Notably, male suicide rates have been reported to be significantly higher than female suicide rates in almost all countries across the globe. South-Asian region has the highest female suicide rate of 7.98 per 100,000 female compared to other areas with a moderately high male suicide rate of 12.23 per 100,000 male. These trends might reveal the impacts of "conventional gender role" which a society places onto each individual in different cultures. Further investigations can be carried out focusing on the correlations between high suicide rates and the causing factors such as depression or other psychological problems, the coverage of social support, stress, etc.
+Notably, male suicide rates have been reported to be higher than female suicide rates in almost all countries across the globe. Compared to other countries, the south-Asian region has the highest female suicide rate of 7.98 per 100,000 female with a moderately high male suicide rate of 12.23 per 100,000 male.
 
+Gender role is a social role which consists of behaviors or attitudes that are considered conventional or appropriate by a society based on an individual's sex. These trends might reveal how different society views each sex in their culture and its impacts on an individual's psychological health. More importantly, it is worth investigating the correlations between high suicide rates with potential causes/factors, such as diagnosed depression, available social support, cost of living, etc. to understand how we can help.
 
