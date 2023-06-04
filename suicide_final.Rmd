@@ -160,6 +160,7 @@ table_3year_income
 
 
 ## Visualisations
+
 The set of plots below shows male vs. female suicide rates in each country in 2017, 2018, 2019. The solid line (y=x) is the equality ratio line. From the plots we can clearly see:
 
  - _Male suicide rates are higher or close to female suicide rates in all countries from 2017 to 2019._
@@ -183,6 +184,7 @@ scatter_allcountry <- ggplot(summary_sex_3year_scatter, aes(Suicide_rate_of_fema
 
 ggplotly(scatter_allcountry)
 ```
+
 
 ## Conclusions
 Notably, male suicide rates have been reported to be higher than female suicide rates in almost all countries across the globe. Compared to other countries, the south-Asian region has the highest female suicide rate of 7.98 per 100,000 female with a moderately high male suicide rate of 12.23 per 100,000 male.
