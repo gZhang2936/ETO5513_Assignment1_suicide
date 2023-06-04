@@ -134,6 +134,31 @@ table_3year_geo <- knitr::kable(head(summary_sex_3year_geo, 10),
 table_3year_geo
 ```
 
+Table \@ref(tab:Summaryofdata2) shows the mean and sd of male and female suicide rate by income groups from 2017-2019.
+
+Male suicide rates are the highest in high (16.76) and low (15.27) income countries, followed by lower-middle income (13.11) countries. In contrast, female suicide rate is the highest in lower-middle income countries (7.07), followed by high and low income countries with a rate of 5.43 and 5.43, respectively. Male suicide rates in high income countries showed the highest variances among all groups.
+
+```{r Summaryofdata2}
+# Create data sets.
+summary_sex_3year_income <- rates_by_sex_new %>%
+  filter(Entity %in% c("High-income", "Low-income", "Lower-middle-income", "Upper-middle-income")) %>%
+  group_by(Entity) %>%
+  summarise(mean_of_male = mean(Suicide_rate_of_male),
+            mean_of_female = mean(Suicide_rate_of_female),
+            variance_of_male = sd(Suicide_rate_of_male),
+            variance_of_female = sd(Suicide_rate_of_female),
+            .groups = 'drop')
+
+# Create data table
+table_3year_income <- knitr::kable(head(summary_sex_3year_income, 10),
+                            digits = 2,
+                            caption = "Mean and variance of suicide rates (per 100,000 male or female) of male and female by income level")
+table_3year_income
+
+```
+
+
+
 ## Visualisations
 The set of plots below shows male vs. female suicide rates in each country in 2017, 2018, 2019. The solid line (y=x) is the equality ratio line. From the plots we can clearly see:
 
