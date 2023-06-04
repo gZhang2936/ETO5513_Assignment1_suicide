@@ -155,7 +155,7 @@ The set of plots below shows male vs. female suicide rates in each country in 20
 
  - _Male suicide rates are higher or close to female suicide rates in all countries from 2017 to 2019._
  
- - _Of note, Lesotho had significantly high male and female suicide rates compared to other countries._
+ - _Potential correlation between male and female suicide rates which would be of interest to examine further._
 
 ```{r malefemalerates}
 # Create dataset for the graph
