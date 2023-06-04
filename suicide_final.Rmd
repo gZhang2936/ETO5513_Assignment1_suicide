@@ -136,7 +136,7 @@ table_3year_geo
 
 Male suicide rates are the highest in high (16.76) and low (15.27) income countries, followed by lower-middle income (13.11) countries. In contrast, female suicide rate is the highest in lower-middle income countries (7.07), followed by high and low income countries with a rate of 5.43 and 5.43, respectively. Of note, high and low income countries showed similar suicide rates in both sexes. 
 
-In addition, male suicide rates in high income countries showed the highest variances among all groups.(See Table \@ref(tab:Summaryofdata2))
+In addition, male suicide rates in high income countries showed the highest variances among all groups.(See Table \@ref(tab:Summaryofdata2)).
 
 ```{r Summaryofdata2}
 # Create data sets.
