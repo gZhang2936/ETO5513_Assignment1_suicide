@@ -135,6 +135,7 @@ table_3year_geo
 ```
 
 ## Visualisations
+The plot below shows the global trend of suicide rate for both sexes by region over 2017 to 2019 (Figure \@ref(fig:3yeartrend)). All groups except South-East Asia showed slight reduction in overall suicide rate. The overall rates echo what we observed in \@ref(tab:Summaryofdata): Africa and Europe are the two areas where suicide is the most prevalent.
 
 ```{r 3yeartrend}
 summary_sex_3year_bar <- rates_by_sex_new %>%
@@ -150,7 +151,7 @@ bar_groups <- ggplot(summary_sex_3year_bar, aes(fill = as.character(Year), y = S
 ggplotly(bar_groups)
 ```
 
-The set of plots below shows male vs. female suicide rates in each country in 2017, 2018, 2019. The solid line (y=x) is the equality ratio line. From the plots we can clearly see:
+The set of plots below shows male vs. female suicide rates in each country in 2017, 2018, 2019. The solid line (y=x) is the equality ratio line (Figure \@ref(fig:malefemalerates)). From the plots we can clearly see:
 
  - _Male suicide rates are higher or close to female suicide rates in all countries from 2017 to 2019._
  
